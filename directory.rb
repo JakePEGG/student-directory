@@ -12,11 +12,13 @@ def input_students
 	      cohort = "november"
 	    end
 
-	    students << {name: name, cohort: cohort.to_sym, hobby: hobby}
+      puts "Please enter a hobby:"
+      	    hobby = gets.chomp
+            
     puts "Now we have #{students.count} students"
     name = gets.chomp
   end
-  
+
   students << {name: name, cohort: cohort.to_sym, hobby: hobby}
 end
 
