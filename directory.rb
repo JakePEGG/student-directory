@@ -4,6 +4,7 @@ def input_students
   students = []
   cohorts = ["january", "february", "march", "april", "june", "july", "august", "september","october", "november", "december"]
   name = gets.chomp
+
   while !name.empty? do
     puts "Please enter a cohort"
 	    cohort = gets.chomp
@@ -14,7 +15,7 @@ def input_students
 
       puts "Please enter a hobby:"
       	    hobby = gets.chomp
-            
+
     puts "Now we have #{students.count} students"
     name = gets.chomp
   end
@@ -33,10 +34,16 @@ def print(students)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  student_count = students.count
+  if student_count == 1
+    puts "Overall, we have #{student_count} great student."
+  else
+   puts "Overall, we have #{student_count} great students"
+  end
 end
 
 students = input_students
 print_header
 print(students)
 print_footer(students)
+end
