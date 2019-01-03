@@ -2,13 +2,22 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   students = []
+  cohorts = ["january", "february", "march", "april", "june", "july", "august", "september","october", "november", "december"]
   name = gets.chomp
   while !name.empty? do
-    students << {name: name, cohort: :november}
+    puts "Please enter a cohort"
+	    cohort = gets.chomp
+
+	    if !cohorts.include?(cohort.downcase)
+	      cohort = "november"
+	    end
+
+	    students << {name: name, cohort: cohort.to_sym, hobby: hobby}
     puts "Now we have #{students.count} students"
     name = gets.chomp
   end
-  students
+  
+  students << {name: name, cohort: cohort.to_sym, hobby: hobby}
 end
 
 def print_header
@@ -17,9 +26,8 @@ def print_header
 end
 
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
-  end
+  students.each_with_index do |student, index|
+	  puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). Hobby: #{student[:hobby]}".center(80)
 end
 
 def print_footer(names)
