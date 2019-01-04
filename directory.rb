@@ -1,6 +1,6 @@
 @students = []
 
-COHORTS =  ["november"]
+COHORTS =  [ "november"]
 
 def input_students
   puts "Please enter the names of the students"
@@ -62,9 +62,9 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit" 
+  puts "3. Save the list (default: students.csv)"
+  puts "4. Load the list (default: students.csv)"
+  puts "9. Exit"
 end
 
 def show_students
@@ -73,8 +73,8 @@ def show_students
   print_footer
 end
 
-def save_students
-  file = File.open("students.csv", "w")
+def save_students(filename = "students.csv")
+  file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
@@ -96,8 +96,7 @@ def add_name_and_cohort(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
 end
 
-def try_load_students
-  filename = ARGV.first
+def try_load_students(filename = ARGV.first)
   return if filename.nil?
   if File.exist?(filename)
     load_students(filename)
@@ -106,6 +105,11 @@ def try_load_students
     puts "Sorry, #{filename} doesn't exist."
     exit
   end
+end
+
+def ask_filename
+  puts "Please enter the (relative) filename you wish to use, followed by enter"
+  STDIN.gets.chomp
 end
 
 def menu_choices(selection)
@@ -118,10 +122,10 @@ def menu_choices(selection)
       show_students
   when "3"
       puts "Selected Option 3"
-      save_students
+      save_students(ask_filename)
   when "4"
       puts "Selected Option 4"
-      try_load_students
+      try_load_students(ask_filename)
   when "9"
       puts "Quitting the program"
       exit
