@@ -1,14 +1,15 @@
-COHORTS =  ["january", "february", "march", "april", "june", "july", "august", "september",
+@students = []
+
+COHORTS =  ["january", "february", "march", "april", "may", "june", "july", "august", "september",
             "october", "november", "december"]
 
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  students = []
 
   name = gets.chomp
 
-  while !name.empty? do
+  until name.empty? do
     puts "Please enter a hobby:"
     hobby = gets.chomp
     puts "Please enter a cohort"
@@ -18,16 +19,15 @@ def input_students
       cohort = "november"
     end
 
-    students << {name: name, cohort: cohort.to_sym, hobby: hobby}
-    puts "Now we have #{students.count} students"
+    @students << {name: name, cohort: cohort.to_sym, hobby: hobby}
+    puts "Now we have #{@students.count} students"
     puts "Please enter a name:"
     name = gets.chomp
   end
-  students
 end
 
-def print_students_by_cohort(students)
-  get_cohorts(students).each do |cohort, names|
+def print_students_by_cohort
+  get_cohorts(@students).each do |cohort, names|
     print "\n#{cohort} cohort students: "
     names.each { |name| print "#{name}, "}
   end
@@ -38,14 +38,14 @@ def print_header
   puts "-------------"
 end
 
-def print(students)
-  students.each_with_index do |student, index|
+def print_students
+  @students.each_with_index do |student, index|
     puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). Hobby: #{student[:hobby]}".center(80)
   end
 end
 
-def print_footer(students)
-  student_count = students.count
+def print_footer
+  student_count = @students.count
   if student_count == 1
     puts "Overall, we have #{student_count} great student."
   else
@@ -66,24 +66,34 @@ def get_cohorts(student_array)
 end
 
 def interactive_menu
-  students = []
   loop do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    selection = gets.chomp
-    case selection
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def show_students
+  print_header
+  print_students
+  print_footer
+end
+
+def process(selection)
+  case selection
     when "1"
-      students = input_students
+    input_students
     when "2"
-      print_header
-      print(students)
-      print_footer(students)
+    show_students
     when "9"
-      exit
+    exit
     else
-      puts "I don't know what you meant, try again"
-    end
+    puts "I don't know what you meant, try again"
   end
 end
 
