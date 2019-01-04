@@ -1,7 +1,6 @@
 @students = []
 
-COHORTS =  ["january", "february", "march", "april", "may", "june", "july", "august", "september",
-            "october", "november", "december"]
+COHORTS =  ["november"]
 
 def input_students
   puts "Please enter the names of the students"
@@ -56,7 +55,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(STDIN.gets.chomp)
+    menu_choices(STDIN.gets.chomp)
   end
 end
 
@@ -109,17 +108,22 @@ def try_load_students
   end
 end
 
-def process(selection)
+def menu_choices(selection)
   case selection
-    when "1"
+  when "1"
+      puts "Selected Option 1"
       input_students
-    when "2"
+  when "2"
+      puts "Selected Option 2"
       show_students
-    when "3"
+  when "3"
+      puts "Selected Option 3"
       save_students
-    when "4"
+  when "4"
+      puts "Selected Option 4"
       try_load_students
-    when "9"
+  when "9"
+      puts "Quitting the program"
       exit
     else
     puts "I don't know what you meant, try again"
