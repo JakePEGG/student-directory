@@ -6,20 +6,31 @@ COHORTS =  ["january", "february", "march", "april", "may", "june", "july", "aug
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  name = STDIN.gets.chomp
 
-  until name.empty? do
-    puts "Please enter a cohort"
-    cohort = STDIN.gets.chomp
-
-    if !COHORTS.include?(cohort.downcase)
-      cohort = "november"
-    end
+  loop do
+    name = get_name
+    break if name.empty?
+    cohort = get_cohort
     add_name_and_cohort(name, cohort)
     puts "Now we have #{@students.count} students"
-    puts "Please enter a name:"
-    name = STDIN.gets.chomp
   end
+end
+
+def get_name
+  puts "Please enter name:"
+  STDIN.gets.chomp
+end
+
+def get_cohort
+  puts "Please enter a cohort:"
+  validate_cohort(STDIN.gets.chomp)
+end
+
+def validate_cohort(cohort)
+  if !COHORTS.include?(cohort.downcase)
+    return "november"
+  end
+  cohort
 end
 
 def print_header
@@ -54,7 +65,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
-  puts "9. Exit"
+  puts "9. Exit" 
 end
 
 def show_students
@@ -99,7 +110,6 @@ def try_load_students
 end
 
 def process(selection)
-
   case selection
     when "1"
       input_students
@@ -108,12 +118,12 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students
+      try_load_students
     when "9"
       exit
     else
     puts "I don't know what you meant, try again"
   end
 end
-p ARGV
+
 interactive_menu
