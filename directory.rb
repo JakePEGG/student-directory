@@ -1,6 +1,6 @@
 COHORTS =  ["january", "february", "march", "april", "june", "july", "august", "september",
             "october", "november", "december"]
-            
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -20,11 +20,9 @@ def input_students
 
     students << {name: name, cohort: cohort.to_sym, hobby: hobby}
     puts "Now we have #{students.count} students"
-    # get another name from the user
     puts "Please enter a name:"
     name = gets.chomp
   end
-  # return the array of students
   students
 end
 
