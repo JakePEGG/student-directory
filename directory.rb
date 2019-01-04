@@ -7,13 +7,8 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
 
-
   name = gets.chomp
-
   until name.empty? do
-
-    puts "Please enter a hobby:"
-    hobby = gets.chomp
     puts "Please enter a cohort"
     cohort = gets.chomp
 
@@ -21,18 +16,10 @@ def input_students
       cohort = "november"
     end
 
-    @students << {name: name, cohort: cohort.to_sym, hobby: hobby}
+    @students << {name: name, cohort: cohort.to_sym}
     puts "Now we have #{@students.count} students"
-
     puts "Please enter a name:"
     name = gets.chomp
-  end
-end
-
-def print_students_by_cohort
-  get_cohorts(@students).each do |cohort, names|
-    print "\n#{cohort} cohort students: "
-    names.each { |name| print "#{name}, "}
   end
 end
 
@@ -43,7 +30,7 @@ end
 
 def print_students
   @students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort). Hobby: #{student[:hobby]}".center(80)
+    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort).".center(80)
   end
 end
 
@@ -54,18 +41,6 @@ def print_footer
   else
    puts "Overall, we have #{student_count} great students"
   end
-end
-
-def get_cohorts(student_array)
-  student_cohorts = {}
-  student_array.each do |student|
-    if student_cohorts.has_key?(student[:cohort])
-      student_cohorts[student[:cohort]].push(student[:name])
-    else
-      student_cohorts[student[:cohort]] = [student[:name]]
-    end
-  end
-  student_cohorts
 end
 
 def interactive_menu
@@ -79,7 +54,8 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
-  puts "9. Exit" 
+  puts "4. Load the list from students.csv"
+  puts "9. Exit"
 end
 
 def show_students
@@ -98,6 +74,15 @@ def save_students
   file.close
 end
 
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
 def process(selection)
   case selection
     when "1"
@@ -106,6 +91,8 @@ def process(selection)
       show_students
     when "3"
       save_students
+    when "4"
+      load_students
     when "9"
       exit
     else
