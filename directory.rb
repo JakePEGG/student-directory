@@ -132,4 +132,8 @@ def menu_choices(selection)
   end
 end
 
+def source_code
+  puts $0
+end
+
 interactive_menu
